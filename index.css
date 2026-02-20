@@ -1,0 +1,81 @@
+html {
+    --doll-base-height: min(80vh, 100em);
+    --doll-base-width: calc(var(--doll-base-height) / 2);
+}
+
+/* Zet appearance none voor custom checkboxen */
+input[type="checkbox"] {
+    appearance: none;
+}
+
+/*Verberg de label tekst*/ 
+label > span {
+    
+}
+
+/* Container */
+div:has(label) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: absolute;
+    top: calc(50% - calc(var(--doll-base-height)/2));
+    left: calc(50% - calc(var(--doll-base-width)/2));
+    width: var(--doll-base-width);
+    height: var(--doll-base-height);
+}
+
+/* Het hoofd */
+
+label:first-of-type {
+    grid-column: 1 / 4;
+    justify-self: center;
+
+    span::before {
+        --width: var(--height);
+    }
+}
+
+/* De borst */
+div > div > div {
+    --width: calc(.5* var(--doll-base-width));
+    --height: calc(.25 * var(--doll-base-height));
+    background: radial-gradient(chocolate, brown);
+    width: var(--width);
+    height: 0;
+    border-bottom: var(--height) solid pink;
+    border-left: calc(var(--height) / 3) solid transparent;
+    border-right: calc(var(--height) / 3) solid transparent;
+    rotate: 180deg;
+}
+
+/* De buik */
+div div div:nth-of-type(2) {
+    rotate: 0deg;
+}
+
+
+/* ledematen */
+label {
+    --background: radial-gradient(chocolate, brown);
+
+    &:has(input:checked) span {
+        --background: pink;
+    }
+
+    & span::before {
+        display: block;
+        content: "";
+        --width: calc(.2* var(--doll-base-width));
+        --height: calc(.3 * var(--doll-base-height));
+        background: var(--background);
+        width: var(--width);
+        height: var(--height);
+        border-radius: 50%;
+    }
+}
+
+/* Rechterbeen */
+label:last-child {
+    grid-column: 3;
+}
+
