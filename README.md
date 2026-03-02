@@ -18,3 +18,4 @@ Vandaag ben ik begonnen met het ontwikkelen van de eindopdracht. Ik heb onderzoe
 Door dit te doen heb ik nog steeds de uitdaging om de benen te animeren van voor en van de zijkant.
 
 Ook heb ik geleerd om de ledematen vanuit de romp te nesten in de html. Ook hoef ik geen label of before element te gebruiken voor de styling van de checkboxes. 
+
