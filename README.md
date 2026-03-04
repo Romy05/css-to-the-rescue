@@ -19,3 +19,4 @@ Door dit te doen heb ik nog steeds de uitdaging om de benen te animeren van voor
 
 Ook heb ik geleerd om de ledematen vanuit de romp te nesten in de html. Ook hoef ik geen label of before element te gebruiken voor de styling van de checkboxes. 
 
+## Woensdag 04-03-2026 Checkout

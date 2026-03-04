@@ -1,5 +1,5 @@
 html {
-    --doll-base-height: min(80vh, 100em);
+    --doll-base-height: min(60vh, 60em);
     --doll-base-width: calc(var(--doll-base-height) / 2);
 }
 
@@ -8,74 +8,218 @@ input[type="checkbox"] {
     appearance: none;
 }
 
-/*Verberg de label tekst*/ 
-label > span {
-    
-}
-
-/* Container */
-div:has(label) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+/* Base / Romp */
+body > div > div:nth-child(1) {
     position: absolute;
-    top: calc(50% - calc(var(--doll-base-height)/2));
+    top: calc(50% - calc(var(--doll-base-height)/4));
     left: calc(50% - calc(var(--doll-base-width)/2));
     width: var(--doll-base-width);
     height: var(--doll-base-height);
 }
 
-/* Het hoofd */
-
-label:first-of-type {
-    grid-column: 1 / 4;
-    justify-self: center;
-
-    span::before {
-        --width: var(--height);
-    }
-}
-
-/* De borst */
-div > div > div {
-    --width: calc(.5* var(--doll-base-width));
+/* Borst en Buik */
+body > div > div:nth-child(1) > div {
+    --width: calc(.5 * var(--doll-base-width));
     --height: calc(.25 * var(--doll-base-height));
+    border-radius: 2rem;
+    position: absolute;
     background: radial-gradient(chocolate, brown);
     width: var(--width);
     height: 0;
-    border-bottom: var(--height) solid pink;
+    border-top: var(--height) solid pink;
     border-left: calc(var(--height) / 3) solid transparent;
     border-right: calc(var(--height) / 3) solid transparent;
-    rotate: 180deg;
 }
+
+/* De borst */
+body > div > div:nth-child(1) > div:nth-child(1) {
+    z-index: 10;
+    /* Nek */
+    > div:nth-child(1) {
+        position: absolute;
+        --neck-height: calc(var(--height) * .3);
+        --neck-width: calc(var(--width) * .4);
+        inset-block-start: calc(-1 * (var(--height) + var(--neck-height)));
+        inset-inline-start: calc((var(--width) / 2) - (var(--neck-width) / 2));
+        height: var(--neck-height);
+        width: var(--neck-width);
+        background-color: black;
+        animation: --slide .5s linear infinite;
+
+        &:has(input:not(:checked)) {
+            animation-play-state: paused;
+        }
+
+        /* Het hoofd */
+        > label {
+            --head-height: var(--height);
+            --head-width: var(--height);
+            display: block;
+            position: absolute;
+            inset-block-start: 0;
+            inset-block-start: calc(-1 * calc(var(--head-height) * .9));
+            inset-inline-start: calc((var(--neck-width) / 2) - (var(--head-width) / 2));
+            height: var(--head-height);
+            width: var(--head-width);
+            border-radius: 50%;
+            background-color: blue;
+            animation: --nod .25s linear infinite;
+
+            &:has(input:not(:checked)) {
+                animation-play-state: paused;
+            }
+        }
+    }
+
+    /* Linker en rechter upper-arm */
+    > label:not(:nth-child(1)) {
+        --upper-arm-width: calc(.15 * var(--doll-base-width));
+        --upper-arm-height: calc(.25 * var(--doll-base-height));
+
+        position: absolute;
+        inset-block-start: calc(-1 * var(--height));
+        inset-inline-start: calc(-1 * ((var(--width) / 2) - (var(--upper-arm-width) / 3)));
+        background: brown;
+        width: var(--upper-arm-width);
+        height: var(--upper-arm-height);
+        border-radius: 25rem;
+
+        /* Linker en rechter onder-arm */
+        > div {
+            --lower-arm-width: var(--upper-arm-width);
+            --lower-arm-height: calc(.3 * var(--doll-base-height));
+
+            position: absolute;
+            background: blue;
+            width: var(--lower-arm-width);
+            height: var(--lower-arm-height);
+            border-radius: 25rem;
+            inset-block-start: calc(var(--upper-arm-height) - (var(--upper-arm-width) / 2));
+            transform-origin: 50% 0;
+
+            /* Linker en rechter hand */
+            > div {
+                --hand-width: var(--lower-arm-width);
+                --hand-height: calc(.1 * var(--doll-base-height));
+
+                position: absolute;
+                background: yellow;
+                width: var(--hand-width);
+                height: var(--hand-height);
+                border-radius: 25rem;
+                inset-block-start: var(--upper-arm-height);
+            }
+        }
+    }
+
+     /* Linker upper-arm */
+    > label:nth-child(2) {
+        transform-origin: 50% 0;
+        /* rotate: z 90deg; */
+    }
+
+    /* Rechter upper-arm */
+    > label:nth-child(3) {
+        inset-inline-start: unset;
+        inset-inline-end: calc(-1 * ((var(--width) / 2) - (var(--upper-arm-width) / 3)));
+    }
+}
+
 
 /* De buik */
-div div div:nth-of-type(2) {
-    rotate: 0deg;
-}
+body > div > div:nth-child(1) > div:nth-of-type(2) {
+    border-top: none;
+    border-bottom: var(--height) solid pink;
+    top: var(--height);
 
+    /* Linker en rechter bovenbenen */
+    > label {
+        --upper-leg-width: calc(.2 * var(--doll-base-width));
+        --upper-leg-height: calc(.25 * var(--doll-base-height));
 
-/* ledematen */
-label {
-    --background: radial-gradient(chocolate, brown);
+        z-index: -1;
+        position: absolute;
+        inset-block-start: calc(var(--height) / 2);
+        inset-inline-start: 0;
+        background: brown;
+        width: var(--upper-leg-width);
+        height: var(--upper-leg-height);
+        border-radius: 25rem;
 
-    &:has(input:checked) span {
-        --background: pink;
+        /* Linker en rechter onderbeen */
+        > div {
+            --lower-leg-width: var(--upper-leg-width);
+            --lower-leg-height: calc(.3 * var(--doll-base-height));
+
+            position: absolute;
+            background: blue;
+            width: var(--lower-leg-width);
+            height: var(--lower-leg-height);
+            border-radius: 25rem;
+            inset-block-start: calc(var(--upper-leg-height) - (var(--upper-leg-width)/ 2));
+            transform-origin: 50% 0;
+
+            /* Linker en rechter voet */
+            > div {
+                --foot-width: var(--lower-leg-width);
+                --foot-height: calc(.1 * var(--doll-base-height));
+
+                position: absolute;
+                background: yellow;
+                width: var(--foot-width);
+                height: var(--foot-height);
+                border-radius: 25rem;
+                inset-block-start: var(--upper-leg-height);
+
+                /* Uiteinde van de voeten */
+                > div {
+                    --foot-end-width: var(--foot-width);
+                    --foot-end-height: calc(var(--foot-height) * 1.5);
+
+                    position: absolute;
+                    background: pink;
+                    width: var(--foot-end-width);
+                    height: var(--foot-end-height);
+                    border-radius: 25rem;
+                    inset-block-start: 0;
+                }
+            }
+        }
     }
 
-    & span::before {
-        display: block;
-        content: "";
-        --width: calc(.2* var(--doll-base-width));
-        --height: calc(.3 * var(--doll-base-height));
-        background: var(--background);
-        width: var(--width);
-        height: var(--height);
-        border-radius: 50%;
+     /* Linker bovenbeen */
+    > label:nth-child(1) {
+        transform-origin: 50% 0;
+        /* rotate: z 90deg; */
+    }
+
+    /* Rechter bovenbeen */
+    > label:nth-child(2) {
+        inset-inline-start: unset;
+        inset-inline-end: 0;
     }
 }
 
-/* Rechterbeen */
-label:last-child {
-    grid-column: 3;
+@keyframes --nod {
+    0% {
+        transform: translateY(0%);
+    }
+    25% {
+        transform: translateY(-2.5%);
+    }
+    75% {
+        transform: translateY(2.5%);
+    }
 }
 
+@keyframes --slide {
+    0% {
+        transform: translateX(0%)
+    }
+    25% {
+        transform: translateX(-40%)
+    }
+    75% {
+        transform: translateX(40%)
+    }
+}
