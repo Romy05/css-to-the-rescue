@@ -1,11 +1,7 @@
 html {
     --doll-base-height: min(60vh, 60em);
     --doll-base-width: calc(var(--doll-base-height) / 2);
-}
-
-/* Zet appearance none voor custom checkboxen */
-input[type="checkbox"] {
-    appearance: none;
+    --turned: 0;
 }
 
 body {
@@ -25,7 +21,8 @@ body > div > div:nth-child(1) {
     width: var(--doll-base-width);
     height: var(--doll-base-height);
 
-    animation: --turn var(--duration);
+    animation: --turn var(--duration) forwards;
+    animation-play-state: paused;
     transform-style: preserve-3d;
 
     * {
@@ -40,7 +37,7 @@ body > div > div:nth-child(1) {
   }
   100% {
     transform: 
-      rotateY(.25turn)
+      rotateY(.5turn)
   }
 }
 
@@ -51,7 +48,7 @@ body > div > div:nth-child(1) {
   }
   100% {
     transform: 
-      rotateY(-.25turn)
+      rotateY(-.5turn)
   }
 }
 
@@ -59,6 +56,7 @@ body > div > div:nth-child(1) {
 body > div > div:nth-child(1) > div {
     --torso-width: calc(.5 * var(--doll-base-width));
     --torso-height: calc(.25 * var(--doll-base-height));
+
     border-radius: 2rem;
     position: absolute;
     width: var(--torso-width);
@@ -66,56 +64,56 @@ body > div > div:nth-child(1) > div {
     border-top: var(--torso-height) solid pink;
     border-left: calc(var(--torso-height) / 3) solid transparent;
     border-right: calc(var(--torso-height) / 3) solid transparent;
+
+    /* Zet appearance none voor custom checkboxen */
+    input[type="checkbox"] {
+        appearance: none;
+    }
 }
 
 /* De borst */
 body > div > div:nth-child(1) > div:nth-child(1) {
     z-index: 10;
 
-    /*Nek/hoofd container*/
-    > div {
+    /* Nek */
+    > div:nth-child(1) {
         --neck-height: calc(var(--torso-height) * .3);
         --neck-width: calc(var(--torso-width) * .4);
 
         position: absolute;
         height: var(--neck-height);
         width: var(--neck-width);
-        inset-block-start: calc(-1 * (var(--torso-height) + var(--neck-height)));
-        inset-inline-start: calc((var(--torso-width) / 2) - (var(--neck-width) / 2));
-         /* Nek */
-        > div:nth-child(1) {
-            position: absolute;
+        top: calc(-1 * (var(--torso-height) + var(--neck-height)));
+        left: calc((var(--torso-width) / 2) - (var(--neck-width) / 2));
 
-            height: var(--neck-height);
-            width: var(--neck-width);
-            background-color: black;
-            animation: --slide .5s linear infinite;
+        background-color: black;
+        animation: --slide .5s linear infinite;
+
+        &:has(input:not(:checked)) {
+            animation-play-state: paused;
+        }
+
+        /* Het hoofd */
+        > label {
+            --head-height: var(--torso-height);
+            --head-width: var(--torso-height);
+            display: block;
+            position: absolute;
+            top: 0;
+            top: calc(-1 * calc(var(--head-height) * .9));
+            left: calc((var(--neck-width) / 2) - (var(--head-width) / 2));
+            height: var(--head-height);
+            width: var(--head-width);
+            border-radius: 50%;
+            background-color: blue;
+            animation: --nod .25s linear infinite;
 
             &:has(input:not(:checked)) {
                 animation-play-state: paused;
             }
-
-            /* Het hoofd */
-            > label {
-                --head-height: var(--torso-height);
-                --head-width: var(--torso-height);
-                display: block;
-                position: absolute;
-                inset-block-start: 0;
-                inset-block-start: calc(-1 * calc(var(--head-height) * .9));
-                inset-inline-start: calc((var(--neck-width) / 2) - (var(--head-width) / 2));
-                height: var(--head-height);
-                width: var(--head-width);
-                border-radius: 50%;
-                background-color: blue;
-                animation: --nod .25s linear infinite;
-
-                &:has(input:not(:checked)) {
-                    animation-play-state: paused;
-                }
-            }
         }
     }
+    
    
     /* Arm container */
     > div:not(:nth-child(1)) {
@@ -125,16 +123,16 @@ body > div > div:nth-child(1) > div:nth-child(1) {
         position: absolute;
         height: var(--upper-arm-height);
         width: var(--upper-arm-width);
-        inset-block-start: calc(-1 * var(--torso-height));
-        inset-inline-start: calc(-1 * (var(--torso-width) / 2));
+        top: calc(-1 * var(--torso-height));
+        left: calc(-1 * (var(--torso-width) / 2));
         /* Linker en rechter upper-arm */
         > label {
             position: absolute; 
             background: brown;
             width: var(--upper-arm-width);
             height: var(--upper-arm-height);
-            inset-inline-start: calc(.25 * var(--upper-arm-width));
-            inset-inline-start: 0;
+            left: calc(.25 * var(--upper-arm-width));
+            left: 0;
             border-radius: 25rem;
             transform-origin: 50% 0;
 
@@ -148,7 +146,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                 width: var(--lower-arm-width);
                 height: var(--lower-arm-height);
                 border-radius: 25rem;
-                inset-block-start: calc(var(--upper-arm-height) - (var(--upper-arm-width) / 2));
+                top: calc(var(--upper-arm-height) - (var(--upper-arm-width) / 2));
                 transform-origin: 50% 0;
 
                 /* Linker en rechter hand */
@@ -161,7 +159,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                     width: var(--hand-width);
                     height: var(--hand-height);
                     border-radius: 25rem;
-                    inset-block-start: var(--upper-arm-height);
+                    top: var(--upper-arm-height);
                 }
             }
         }
@@ -173,8 +171,8 @@ body > div > div:nth-child(1) > div:nth-child(1) {
 
         /* Rechter arm container */
         &:nth-child(3) {
-            inset-inline-start: unset;
-            inset-inline-end: calc(-1 * (var(--torso-width) / 2));
+            left: unset;
+            right: calc(-1 * (var(--torso-width) / 2));
         }
     }
 }
@@ -182,10 +180,14 @@ body > div > div:nth-child(1) > div:nth-child(1) {
 
 /* De buik */
 body > div > div:nth-child(1) > div:nth-of-type(2) {
-    border-top: none;
-    border-bottom: var(--torso-height) solid pink;
     top: var(--torso-height);
+    left: calc(var(--torso-width) / 4);
+    width: calc(var(--torso-width) / 2);
+    height: 0;
 
+    border-top: var(--torso-height) solid silver;
+    border-left: calc(var(--torso-height) / 3) solid transparent;
+    border-right: calc(var(--torso-height) / 3) solid transparent;
     /*Benen container*/
     > div {
         --upper-leg-width: calc(.2 * var(--doll-base-width));
@@ -194,8 +196,8 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
         position: absolute;
         width: var(--upper-leg-width);
         height: var(--upper-leg-height);
-        inset-block-start: calc(var(--torso-height) / 2);
-        inset-inline-start: 0;
+        top: calc(-.5 * var(--torso-height) / 2);
+        left: calc(-1 * var(--torso-width) / 4);
 
         /* Linker en rechter bovenbenen */
         > label {
@@ -217,7 +219,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                 width: var(--lower-leg-width);
                 height: var(--lower-leg-height);
                 border-radius: 25rem;
-                inset-block-start: calc(var(--upper-leg-height) - (var(--upper-leg-width)/ 2));
+                top: calc(var(--upper-leg-height) - (var(--upper-leg-width)/ 2));
                 transform-origin: 50% 0;
 
                 /* Linker en rechter voet */
@@ -230,7 +232,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                     width: var(--foot-width);
                     height: var(--foot-height);
                     border-radius: 25rem;
-                    inset-block-start: var(--upper-leg-height);
+                    top: var(--upper-leg-height);
 
                     /* Uiteinde van de voeten */
                     > div {
@@ -242,7 +244,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                         width: var(--foot-end-width);
                         height: var(--foot-end-height);
                         border-radius: 25rem;
-                        inset-block-start: 0;
+                        top: 0;
                     }
                 }
             }
@@ -255,16 +257,43 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
 
         /* Rechter been container */
         &:nth-child(2) {
-            inset-inline-start: unset;
-            inset-inline-end: 0;
+            left: unset;
+            right: calc(-1 * var(--torso-width) / 4);
         }
     }
 }
 
 /*Containers van alles behalve romp/borst/buik*/ 
-body > div > div:nth-child(1) > div > * {
-    animation: --negative-turn var(--duration);
+body > div > div:nth-child(1) {
+    
+    > div:nth-child(1) > :not(:first-child) {
+        animation: --negative-turn var(--duration) forwards;
+        animation-play-state: paused;
+    }
+
+    > div:nth-child(2) > * {
+        animation: --negative-turn var(--duration) forwards;
+        animation-play-state: paused;
+    }
 }
+
+/*Als de turned gechecked is draai het lichaam*/
+body:has(div:nth-child(2) input[type="checkbox"]:checked) {
+
+    > div > div:nth-child(1) {
+        animation-play-state: running;
+
+        > div:nth-child(1) > :not(:first-child) {
+            animation-play-state: running;
+        }
+
+        > div:nth-child(2) > * {
+            animation-play-state: running;
+        }
+    }
+    
+}
+
 
 @keyframes --nod {
     0% {
