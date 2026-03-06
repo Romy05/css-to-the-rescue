@@ -27,3 +27,11 @@ Verder heb ik gewerkt aan mijn poppetje. De basis ervan staat. Ik wil verder nog
 Ook heb ik tijdens de 3D workshop geleerd over het transformeren van objecten met 3D. Dit wil ik ook later gaan toepassen aan mijn ontwerp.
 
 <img src="./images/poppetje-base.jpeg">
+
+## Donderdag 05-03-2026 Checkout
+Vandaag heb ik een workshop gevolgd over animations en een over anchors. 
+Hier heb ik geleerd over hoe je dingen kunt animeren door middel van keyframes. Verder heb ik ook geleerd hoe ik elementen t.o.v. andere elementen kan plaatsen en hoe dit responsive is door middel van anchors.
+
+Vandaag heb ik er voor gezorgd dat mijn poppetje 90 graden opzij draait, zodat je de walk van 2 opzichten kunt zien. Dit heb ik gedaan door middel van 3d transforms met perspective. Dit is een onderwerp waar ik meer over wil leren en betere dingen mee wil maken. 
+
+Morgen wil ik wel echt beginnen aan de 'walk' zelf. Zodra ik een leuke walk animatie heb toegepast voor de side view en de front view wil ik beginnen aan de thematisering van mijn opdracht. Het lijkt me leuk om een 'error' thema te hebben. Dit activeer je door op het hoofdje te klikken. 
