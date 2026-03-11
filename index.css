@@ -1,27 +1,57 @@
 html {
     --doll-base-height: min(60vh, 60em);
     --doll-base-width: calc(var(--doll-base-height) / 2);
+
+    --duration: 3s;
+
+     /* met behulp van cubic-bezier.com */
+    --spring-animation: cubic-bezier(.22,.1,.86,1.29);
 }
 
 body {
-    --duration: 3s;
     margin: 0;
     height: 100dvh;
 
-    perspective: 20em;
+    perspective: 50em;
     transform-style: preserve-3d;
+
+    /*pointer events met behulp van Cyd!*/
+    pointer-events: none;
+}
+
+input,
+label {
+    /*pointer events met behulp van Cyd!*/
+    pointer-events: all;
+    cursor: pointer;
+}
+
+body * {
+    transform-style: preserve-3d;
+}
+
+body > div:nth-child(1) {
+    position: absolute;
+    top: calc(50% - calc(var(--doll-base-height)/4));
+    left: calc(50% - calc(var(--doll-base-width)/2));
+    transition: var(--duration) linear;
+    transform: rotateY(var(--rotation, 0deg));
 }
 
 /* Base / Romp */
 body > div > div:nth-child(1) {
     position: absolute;
-    top: calc(50% - calc(var(--doll-base-height)/4));
-    left: calc(50% - calc(var(--doll-base-width)/2));
+    top: 0;
     width: var(--doll-base-width);
     height: var(--doll-base-height);
 
     transition: var(--duration) linear;
     transform-style: preserve-3d;
+    animation: --bounce infinite calc(1 * var(--duration)) linear alternate;
+
+    /*pointer events met behulp van Cyd!*/
+    pointer-events: all;
+    
 
     * {
         transform-style: preserve-3d;
@@ -112,7 +142,8 @@ body > div > div:nth-child(1) > div:nth-child(1) {
             left: 0;
             border-radius: 25rem;
             transform-origin: 50% 0;
-            animation: linear --arm-walk-front infinite var(--duration) alternate;
+            animation: --arm-walk-front infinite var(--duration) alternate;
+            
 
             /* Linker en rechter onder-arm */
             > div {
@@ -126,7 +157,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                 border-radius: 25rem;
                 top: calc(var(--upper-arm-height) - (var(--upper-arm-width) / 2));
                 transform-origin: 50% 0;
-                animation: linear --lower-arm-walk-front infinite var(--duration) alternate;
+                animation: --lower-arm-walk-front infinite var(--duration) alternate;
 
                 /* Linker en rechter hand */
                 > div {
@@ -140,6 +171,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                     border-radius: 25rem;
                     top: var(--upper-arm-height);
                     transform-origin: 50% 0;
+                    animation: --hand-walk-front infinite var(--duration) alternate;
                 }
             }
         }
@@ -154,8 +186,12 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                 animation-delay: calc(-1 * var(--duration));
 
                 /* onder arm */
-                div {
+                > div {
                     animation-delay: calc(-1 * var(--duration));
+
+                    > div {
+                        animation-delay: calc(-1 * var(--duration));
+                    }
                 }
             }
         }
@@ -192,7 +228,9 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
             width: var(--upper-leg-width);
             height: var(--upper-leg-height);
             border-radius: 25rem;
-                transform-origin: 50% 0;
+            transform-origin: 50% 0;
+            animation: --leg-walk-front infinite var(--duration) alternate var(--spring-animation);
+        
 
             /* Linker en rechter onderbeen */
             > div {
@@ -206,11 +244,13 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                 border-radius: 25rem;
                 top: calc(var(--upper-leg-height) - (var(--upper-leg-width)/ 2));
                 transform-origin: 50% 0;
+                animation: --lower-leg-walk-front infinite var(--duration) alternate var(--spring-animation);
+                
 
                 /* Linker en rechter voet */
                 > div {
                     --foot-width: var(--lower-leg-width);
-                    --foot-height: calc(.1 * var(--doll-base-height));
+                    --foot-height: calc(.15 * var(--doll-base-height));
 
                     position: absolute;
                     background: yellow;
@@ -218,38 +258,39 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                     height: var(--foot-height);
                     border-radius: 25rem;
                     top: var(--upper-leg-height);
-
-                    /* Uiteinde van de voeten */
-                    > div {
-                        --foot-end-width: var(--foot-width);
-                        --foot-end-height: calc(var(--foot-height) * 1.5);
-
-                        position: absolute;
-                        background: pink;
-                        width: var(--foot-end-width);
-                        height: var(--foot-end-height);
-                        border-radius: 25rem;
-                        top: 0;
-                    }
+                    transform-origin: 50% 25%;
+                    animation: --foot-walk-front infinite var(--duration) alternate var(--spring-animation);
                 }
             }
         }
 
         /* Linker been container */
         &:nth-child(1) {
+            /* Linker upper been */
+            label {
+                animation-delay: calc(-1 * var(--duration));
 
+                /* onder been */
+                > div {
+                    animation-delay: calc(-1 * var(--duration));
+
+                    > div {
+                        animation-delay: calc(-1 * var(--duration));
+                    }
+                }
+            }
         }
 
         /* Rechter been container */
         &:nth-child(2) {
             left: unset;
-            right: calc(-1 * var(--torso-width) / 4);
+            right: calc(-1 * var(--torso-width) / 4);  
         }
     }
 }
 
-/*Containers van alles behalve romp/borst/buik*/ 
-body > div > div:nth-child(1) {
+/* Containers van alles behalve romp/borst/buik  */
+body > div > div > div:nth-child(1) {
     
     > div:nth-child(1) > :not(:first-child),
     > div:nth-child(2) > * {
@@ -259,28 +300,7 @@ body > div > div:nth-child(1) {
 
 /*Als de turned 45 graden is draai het lichaam*/
 body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
-
-    > div > div:nth-child(1) {
-        transform: rotateY(45deg);
-
-        > div:nth-child(1) > :not(:first-child),
-        > div:nth-child(2) > * {
-            transform: rotateY(-45deg);
-        }
-    }
-}
-
-/*Als de turned 90 graden is draai het lichaam*/
-body:has(div:nth-child(2) fieldset label:nth-child(3) input:checked) {
-
-    > div > div:nth-child(1) {
-        transform: rotateY(90deg);
-
-        > div:nth-child(1) > :not(:first-child),
-        > div:nth-child(2) > * {
-            transform: rotateY(-90deg);
-        }
-    }
+    --rotation: 45deg;
 }
 
 @keyframes --nod {
@@ -307,13 +327,25 @@ body:has(div:nth-child(2) fieldset label:nth-child(3) input:checked) {
     }
 }
 
+@keyframes --bounce {
+    0%,
+    25% {
+        transform: translateY(5%);
+    }
+    50% {
+        transform: translateY(-5%);
+    }
+    75%,
+    100% {
+        transform:translateY(5%);
+    }
+}
+
 @keyframes --arm-walk-front {
     0% {
         transform: rotateX(-45deg);
     }
-    25% {
-        transform: rotateX(0deg);
-    }
+    25%,
     75% {
         transform: rotateX(0deg);
     }
@@ -323,25 +355,59 @@ body:has(div:nth-child(2) fieldset label:nth-child(3) input:checked) {
 }
 
 @keyframes --lower-arm-walk-front {
-    0% {
-        transform: rotateX(0deg);
-    }
+    0%, 
     30% {
         transform: rotateX(0deg);
     }
-    70% {
-        transform: rotateX(45deg);
-    }
+    45%, 
     100% {
         transform: rotateX(45deg);
     }
 }
 
-@keyframes --leg-walk {
-    0% {
+@keyframes --hand-walk-front {
+    0%, 
+    50% {
+        transform: rotateX(0deg);
+    }
+    70%, 
+    100% {
+        transform: rotateX(-15deg);
+    }
+}
 
+@keyframes --leg-walk-front {
+    0%,
+    10% {
+        transform: rotateX(-45deg);
+    }
+    90%,
+    100% {
+        transform: rotateX(45deg);
+    }
+}
+
+@keyframes --lower-leg-walk-front {
+    0%,
+    50% {
+        transform: rotateX(-25deg);
+    }
+
+    90%,
+    100% {
+        transform: rotateX(-45deg);
+    }
+}
+
+@keyframes --foot-walk-front {
+    0% {
+        transform: rotateX(90deg);
+    }
+    45%,
+    55% {
+        transform: rotateX(90deg);
     }
     100% {
-
+        transform: rotateX(90deg);
     }
 }

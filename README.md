@@ -35,3 +35,19 @@ Hier heb ik geleerd over hoe je dingen kunt animeren door middel van keyframes. 
 Vandaag heb ik er voor gezorgd dat mijn poppetje 90 graden opzij draait, zodat je de walk van 2 opzichten kunt zien. Dit heb ik gedaan door middel van 3d transforms met perspective. Dit is een onderwerp waar ik meer over wil leren en betere dingen mee wil maken. 
 
 Morgen wil ik wel echt beginnen aan de 'walk' zelf. Zodra ik een leuke walk animatie heb toegepast voor de side view en de front view wil ik beginnen aan de thematisering van mijn opdracht. Het lijkt me leuk om een 'error' thema te hebben. Dit activeer je door op het hoofdje te klikken. 
+
+## Vrijdag 06-03-2026 Checkout
+Vandaag ben ik begonnen aan de 'walk' animatie. De armen heb ik gedaan. Mijn idee is om een soort robot animatie te maken, dus hij loopt erg plots. 
+
+Ik heb feedback gekregen op wat ik heb. Ik moet nog een titel toevoegen die bij mijn ontwerp past en 'wow'-waardig is.
+Als ik tijd heb wil ik ook nog door middel van clip paths mijn robot mooier maken.
+
+## Woensdag 06-03-2026 Checkout
+Vandaag heb ik de animatie van de walk verbeterd en onderzoek gedaan naar animation-timing-function en hoe je deze kunt toepassen.
+
+Verder heb ik het ook mogelijk gemaakt dat het poppetje 45 graden kan draaien zonder dat dit invloed heeft op de animatie van het poppetje. 
+Hier ben ik 2 uur mee bezig geweest.
+
+Met de animatie inclusief het onderzoek ben ik zo'n 3 uur bezig geweest.
+
+Morgen wil ik de loop-animatie afmaken en een pakkende titel toevoegen voor mijn poppetje. Als er tijd voor is wil ik ook een start/stop met lopen checkboxje toevoegen.
