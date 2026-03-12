@@ -2,10 +2,17 @@ html {
     --doll-base-height: min(60vh, 60em);
     --doll-base-width: calc(var(--doll-base-height) / 2);
 
-    --duration: 3s;
+    --duration: 1.5s;
+    --theme: normal;
 
-     /* met behulp van cubic-bezier.com */
-    --spring-animation: cubic-bezier(.22,.1,.86,1.29);
+     
+    --spring-animation: linear;
+
+    --body-rotation: calc(var(--rotation) * 1deg);
+
+    &:has(body > div > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > label > input:checked) {
+        --theme: party;
+    }
 }
 
 body {
@@ -32,10 +39,28 @@ body * {
 
 body > div:nth-child(1) {
     position: absolute;
+    width: var(--doll-base-width);
+    height: var(--doll-base-height);
     top: calc(50% - calc(var(--doll-base-height)/4));
     left: calc(50% - calc(var(--doll-base-width)/2));
-    transition: var(--duration) linear;
-    transform: rotateY(var(--rotation, 0deg));
+    transform-origin: 50% 50%;
+    transition: .1s linear;
+    transform: rotateY(var(--body-rotation));
+}
+
+body > div:nth-child(2) {
+    --controls-width: clamp(2rem, 30vw, 20rem);
+
+    z-index: 50;
+    width: var(--controls-width);
+    position: fixed;
+    bottom: 1rem;
+    left: calc(50% - (var(--controls-width) * .5));
+
+    label {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 /* Base / Romp */
@@ -47,7 +72,7 @@ body > div > div:nth-child(1) {
 
     transition: var(--duration) linear;
     transform-style: preserve-3d;
-    animation: --bounce infinite calc(1 * var(--duration)) linear alternate;
+    animation: --bounce infinite calc(1 * var(--duration)) linear ;
 
     /*pointer events met behulp van Cyd!*/
     pointer-events: all;
@@ -79,8 +104,7 @@ body > div > div:nth-child(1) > div {
 
 /* De borst */
 body > div > div:nth-child(1) > div:nth-child(1) {
-    z-index: 10;
-
+   
     /* Nek */
     > div:nth-child(1) {
         --neck-height: calc(var(--torso-height) * .3);
@@ -94,28 +118,83 @@ body > div > div:nth-child(1) > div:nth-child(1) {
 
         background-color: black;
         animation: --slide .5s linear infinite;
-
-        &:has(input:not(:checked)) {
-            animation-play-state: paused;
-        }
+        animation-play-state: paused;
 
         /* Het hoofd */
         > label {
             --head-height: var(--torso-height);
             --head-width: var(--torso-height);
-            display: block;
+            --eye-diameter: calc(.25 * var(--head-height));
+
+            display: grid;
+            grid-template-areas: 
+            " input input "
+            " eye1 eye2"
+            "mouth mouth";
+            gap: .125rem;
+            align-items: center;
+            justify-content: center;
             position: absolute;
-            top: 0;
             top: calc(-1 * calc(var(--head-height) * .9));
             left: calc((var(--neck-width) / 2) - (var(--head-width) / 2));
             height: var(--head-height);
             width: var(--head-width);
             border-radius: 50%;
-            background-color: blue;
+            background-color: grey;
             animation: --nod .25s linear infinite;
+            animation-play-state: paused;
 
-            &:has(input:not(:checked)) {
-                animation-play-state: paused;
+            /*Oogjes*/
+            > div:nth-of-type(1),
+            > div:nth-of-type(2) {
+                grid-area: eye1;
+
+                width: var(--eye-diameter);
+                height: var(--eye-diameter);
+                transition: .5s ease;
+                aspect-ratio: 1;
+
+                background-image: radial-gradient(
+                    black 20%,
+                    cyan 0 60%,
+                    transparent 0
+                );
+                background-position: center;
+
+                /*Wenkbrauwen*/
+                > div {
+                    position: absolute;
+                    top: -.5rem;
+                    width: var(--eye-diameter);
+                    aspect-ratio: 5 / 1;
+
+                    background-image: linear-gradient(
+                        to left,
+                        transparent 0 20%,
+                        black 100%
+                    )
+                }
+
+                &:hover {
+                    background-size: 100% 10%;
+                    background-repeat: no-repeat;
+                    background-image: radial-gradient(
+                        black 60%,
+                        transparent 0
+                    );
+                }
+            }
+
+            > div:nth-of-type(2) {
+                grid-area: eye2;
+
+                > div {
+                    background-image: linear-gradient(
+                        to right,
+                        transparent 0 20%,
+                        black 100%
+                    )
+                }
             }
         }
     }
@@ -222,7 +301,6 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
 
         /* Linker en rechter bovenbenen */
         > label {
-            z-index: -1;
             position: absolute;
             background: brown;
             width: var(--upper-leg-width);
@@ -298,9 +376,75 @@ body > div > div > div:nth-child(1) {
     }
 }
 
-/*Als de turned 45 graden is draai het lichaam*/
-body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
-    --rotation: 45deg;
+@container style(--theme:party) {
+    /*De borst*/
+    body > div > div:nth-child(1) > div:nth-child(1) {
+        /* Nek */
+        > div:nth-child(1) {
+            animation-play-state: running;
+            /* Het hoofd */
+            > label {
+                animation-play-state: running;
+
+                /*Oogjes*/
+                > div:nth-of-type(1),
+                > div:nth-of-type(2) {
+                    animation: .5s --wink alternate infinite;
+
+                    > div {
+                        animation: .5s --frown-left alternate infinite;
+                    }
+                }
+
+                > div:nth-of-type(2) {
+                    animation-delay: -.5s;
+
+                    > div {
+                        animation: .5s --frown-right alternate infinite;
+                        animation-delay: -.5s;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* @keyframes --frown-right {
+     0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(45deg);
+    }
+}
+
+@keyframes --frown-left {
+     0% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(-45deg);
+    }
+} */
+
+@keyframes --wink {
+    0% {
+        background-size: 100% 10%;
+        background-repeat: no-repeat;
+        background-image: radial-gradient(
+            black 60%,
+            transparent 0
+        );
+    }
+    100% {
+        background-size: 100%;
+        background-image: radial-gradient(
+            black 20%,
+            cyan 0 60%,
+            transparent 0
+        );
+        background-position: center;
+    }
 }
 
 @keyframes --nod {
@@ -329,50 +473,93 @@ body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
 
 @keyframes --bounce {
     0%,
-    25% {
+    10%  {
         transform: translateY(5%);
     }
-    50% {
-        transform: translateY(-5%);
+    22.5%,
+    32.5%  {
+        transform: translateY(2.5%);
     }
-    75%,
+    45%,
+    55% {
+        transform: translateY(0%);
+    }
+    67.5%,
+    77.5%  {
+        transform: translateY(2.5%);
+    }
+    90%,
     100% {
         transform:translateY(5%);
     }
 }
 
 @keyframes --arm-walk-front {
-    0% {
-        transform: rotateX(-45deg);
+     0%,
+    10% {
+        transform: rotateX(-30deg);
     }
-    25%,
-    75% {
+    22.5%,
+    32.5% {
+        transform: rotateX(-15deg);
+    }
+    45%,
+    55% {
         transform: rotateX(0deg);
     }
+    67.5%,
+    77.5% {
+        transform: rotateX(15deg);
+    }
+    90%,
     100% {
-        transform: rotateX(45deg);
+        transform: rotateX(30deg);
     }
 }
 
 @keyframes --lower-arm-walk-front {
-    0%, 
-    30% {
+    0%,
+    10% {
         transform: rotateX(0deg);
     }
-    45%, 
+    22.5%,
+    32.5% {
+        transform: rotateX(0deg);
+    }
+    45%,
+    55% {
+        transform: rotateX(8.5deg);
+    }
+    67.5%,
+    77.5% {
+        transform: rotateX(17deg);
+    }
+    90%,
     100% {
-        transform: rotateX(45deg);
+       transform: rotateX(25deg);
     }
 }
 
 @keyframes --hand-walk-front {
-    0%, 
-    50% {
-        transform: rotateX(0deg);
+    0%,
+    10% {
+        transform: rotateY(0deg);
     }
-    70%, 
+    22.5%,
+    32.5% {
+        transform: rotateY(-90deg);
+    }
+    45%,
+    55% {
+        transform: rotateY(-180deg);
+    }
+    67.5%,
+    77.5% {
+        transform: rotateY(-270deg);
+    }
+    90%,
     100% {
-        transform: rotateX(-15deg);
+       transform: rotateY(-360deg);
     }
 }
 
@@ -380,6 +567,18 @@ body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
     0%,
     10% {
         transform: rotateX(-45deg);
+    }
+    22.5%,
+    32.5% {
+        transform: rotateX(-22.5deg);
+    }
+    45%,
+    55% {
+        transform: rotateX(0deg);
+    }
+    67.5%,
+    77.5% {
+        transform: rotateX(22.5deg);
     }
     90%,
     100% {
@@ -389,10 +588,21 @@ body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
 
 @keyframes --lower-leg-walk-front {
     0%,
-    50% {
+    10% {
         transform: rotateX(-25deg);
     }
-
+    22.5%,
+    32.5% {
+        transform: rotateX(-30deg);
+    }
+    45%,
+    55% {
+        transform: rotateX(-35deg);
+    }
+    67.5%,
+    77.5% {
+        transform: rotateX(-40deg);
+    }
     90%,
     100% {
         transform: rotateX(-45deg);
@@ -400,13 +610,23 @@ body:has(div:nth-child(2) fieldset label:nth-child(2) input:checked) {
 }
 
 @keyframes --foot-walk-front {
-    0% {
-        transform: rotateX(90deg);
+    0%,
+    10% {
+        transform: rotateX(45deg);
+    }
+    22.5%,
+    32.5% {
+        transform: rotateX(60deg);
     }
     45%,
     55% {
         transform: rotateX(90deg);
     }
+    67.5%,
+    77.5% {
+        transform: rotateX(100deg);
+    }
+    90%,
     100% {
         transform: rotateX(90deg);
     }

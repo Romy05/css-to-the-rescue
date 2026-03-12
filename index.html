@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CSS to the rescue!</title>
         <link rel="stylesheet" href="./index.css">
+        <script src="index.js" defer></script>
     </head>
     <body>
         <div>
@@ -17,6 +18,16 @@
                         <!-- Hoofd -->
                         <label aria-label="hoofd">
                             <input type="checkbox" />
+                            <div>
+                                <div>
+                                </div>
+                            </div>
+                            <div>
+                                <div></div>
+                            </div>
+                            <div>
+
+                            </div>
                         </label>
                     </div>
                     
@@ -89,16 +100,10 @@
             </div>
         </div>
         <div>
-            <fieldset>
-                <label>
-                    <input name="turned" type="radio" />
-                    0&deg;
-                </label>
-                <label>
-                    <input name="turned" type="radio" />
-                    45&deg;
-                </label>
-            </fieldset>
+            <label>
+                Rotation:
+                <input type="range" min="0" max="45" step="1" value="0" name="rotation">	
+            </label>
         </div>
     </body>
 </html>
