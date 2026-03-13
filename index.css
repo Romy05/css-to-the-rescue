@@ -2,7 +2,7 @@ html {
     --doll-base-height: min(60vh, 60em);
     --doll-base-width: calc(var(--doll-base-height) / 2);
 
-    --duration: 1.5s;
+    --duration: calc(3s / var(--animation-speed));
     --theme: normal;
 
      
@@ -10,7 +10,7 @@ html {
 
     --body-rotation: calc(var(--rotation) * 1deg);
 
-    &:has(body > div > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > label > input:checked) {
+    &:has(body > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > label > input:checked) {
         --theme: party;
     }
 }
@@ -18,9 +18,8 @@ html {
 body {
     margin: 0;
     height: 100dvh;
-
+    background-color: red;
     perspective: 50em;
-    transform-style: preserve-3d;
 
     /*pointer events met behulp van Cyd!*/
     pointer-events: none;
@@ -39,11 +38,9 @@ body * {
 
 body > div:nth-child(1) {
     position: absolute;
-    width: var(--doll-base-width);
-    height: var(--doll-base-height);
-    top: calc(50% - calc(var(--doll-base-height)/4));
-    left: calc(50% - calc(var(--doll-base-width)/2));
-    transform-origin: 50% 50%;
+    width: 100%;
+    height: 100%;
+    top: 0;
     transition: .1s linear;
     transform: rotateY(var(--body-rotation));
 }
@@ -63,15 +60,42 @@ body > div:nth-child(2) {
     }
 }
 
-/* Base / Romp */
-body > div > div:nth-child(1) {
+/*Muren */
+body > div > div:first-child,
+body > div > div:last-child {
     position: absolute;
-    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 600dvw;
+    transform-origin: 0% 50%;
+    background: linear-gradient(
+        to left,
+        blue,
+        pink
+    );
+
+    /* background: green; */
+
+    transform: translateZ(100dvw) rotateY(90deg);
+}
+
+body > div > div:last-child {
+    transform: translateZ(100dvw) rotateY(-90deg);
+    transform-origin: 100% 50%;
+    left: unset;
+    right: 0;
+}
+
+/* Base / Romp */
+body > div > div:nth-child(2) {
+    position: absolute;
+    top: calc(50% - calc(var(--doll-base-height)/4));
+    left: calc(50% - calc(var(--doll-base-width)/2));
     width: var(--doll-base-width);
     height: var(--doll-base-height);
+    transform-origin: 50% 50%;
 
     transition: var(--duration) linear;
-    transform-style: preserve-3d;
     animation: --bounce infinite calc(1 * var(--duration)) linear ;
 
     /*pointer events met behulp van Cyd!*/
@@ -84,7 +108,7 @@ body > div > div:nth-child(1) {
 }
 
 /* Borst en Buik */
-body > div > div:nth-child(1) > div {
+body > div > div:nth-child(2) > div {
     --torso-width: calc(.5 * var(--doll-base-width));
     --torso-height: calc(.25 * var(--doll-base-height));
 
@@ -92,18 +116,19 @@ body > div > div:nth-child(1) > div {
     position: absolute;
     width: var(--torso-width);
     height: 0;
-    border-top: var(--torso-height) solid pink;
+    border-top: var(--torso-height) solid silver;
     border-left: calc(var(--torso-height) / 3) solid transparent;
     border-right: calc(var(--torso-height) / 3) solid transparent;
 
     /* Zet appearance none voor custom checkboxen */
     input[type="checkbox"] {
+        margin: 0;
         appearance: none;
     }
 }
 
 /* De borst */
-body > div > div:nth-child(1) > div:nth-child(1) {
+body > div > div:nth-child(2) > div:nth-child(1) {
    
     /* Nek */
     > div:nth-child(1) {
@@ -117,7 +142,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
         left: calc((var(--torso-width) / 2) - (var(--neck-width) / 2));
 
         background-color: black;
-        animation: --slide .5s linear infinite;
+        animation: --slide calc(var(--duration) / 2) linear infinite;
         animation-play-state: paused;
 
         /* Het hoofd */
@@ -141,22 +166,23 @@ body > div > div:nth-child(1) > div:nth-child(1) {
             width: var(--head-width);
             border-radius: 50%;
             background-color: grey;
-            animation: --nod .25s linear infinite;
+            animation: --nod calc(var(--duration) / 4) linear infinite;
             animation-play-state: paused;
 
             /*Oogjes*/
             > div:nth-of-type(1),
             > div:nth-of-type(2) {
+                --eye-color: greenyellow;
                 grid-area: eye1;
 
                 width: var(--eye-diameter);
                 height: var(--eye-diameter);
-                transition: .5s ease;
+                transition: 1s ease;
                 aspect-ratio: 1;
 
                 background-image: radial-gradient(
                     black 20%,
-                    cyan 0 60%,
+                    var(--eye-color) 0 60%,
                     transparent 0
                 );
                 background-position: center;
@@ -167,6 +193,8 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                     top: -.5rem;
                     width: var(--eye-diameter);
                     aspect-ratio: 5 / 1;
+                    animation: .25s --frown alternate infinite;
+                    animation-play-state: paused;
 
                     background-image: linear-gradient(
                         to left,
@@ -187,6 +215,8 @@ body > div > div:nth-child(1) > div:nth-child(1) {
 
             > div:nth-of-type(2) {
                 grid-area: eye2;
+                --eye-color: cyan;
+                animation-delay: -.5s;
 
                 > div {
                     background-image: linear-gradient(
@@ -196,6 +226,13 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                     )
                 }
             }
+
+            /* > div:nth-of-type(3) {
+                width: var(--eye-diameter);
+                height: var(--eye-diameter);
+                transition: .5s ease;
+                aspect-ratio: 1;
+            } */
         }
     }
     
@@ -214,7 +251,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
         /* Linker en rechter upper-arm */
         > label {
             position: absolute; 
-            background: brown;
+            background: grey;
             width: var(--upper-arm-width);
             height: var(--upper-arm-height);
             left: calc(.25 * var(--upper-arm-width));
@@ -230,7 +267,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                 --lower-arm-height: calc(.3 * var(--doll-base-height));
 
                 position: absolute;
-                background: blue;
+                background: silver;
                 width: var(--lower-arm-width);
                 height: var(--lower-arm-height);
                 border-radius: 25rem;
@@ -244,7 +281,7 @@ body > div > div:nth-child(1) > div:nth-child(1) {
                     --hand-height: calc(.1 * var(--doll-base-height));
 
                     position: absolute;
-                    background: yellow;
+                    background: greenyellow;
                     width: var(--hand-width);
                     height: var(--hand-height);
                     border-radius: 25rem;
@@ -279,13 +316,13 @@ body > div > div:nth-child(1) > div:nth-child(1) {
 
 
 /* De buik */
-body > div > div:nth-child(1) > div:nth-of-type(2) {
+body > div > div:nth-child(2) > div:nth-of-type(2) {
     top: var(--torso-height);
     left: calc(var(--torso-width) / 4);
     width: calc(var(--torso-width) / 2);
     height: 0;
 
-    border-top: var(--torso-height) solid silver;
+    border-top: var(--torso-height) solid grey;
     border-left: calc(var(--torso-height) / 3) solid transparent;
     border-right: calc(var(--torso-height) / 3) solid transparent;
     /*Benen container*/
@@ -302,7 +339,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
         /* Linker en rechter bovenbenen */
         > label {
             position: absolute;
-            background: brown;
+            background: silver;
             width: var(--upper-leg-width);
             height: var(--upper-leg-height);
             border-radius: 25rem;
@@ -316,7 +353,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                 --lower-leg-height: calc(.3 * var(--doll-base-height));
 
                 position: absolute;
-                background: blue;
+                background: grey;
                 width: var(--lower-leg-width);
                 height: var(--lower-leg-height);
                 border-radius: 25rem;
@@ -331,7 +368,7 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
                     --foot-height: calc(.15 * var(--doll-base-height));
 
                     position: absolute;
-                    background: yellow;
+                    background: greenyellow;
                     width: var(--foot-width);
                     height: var(--foot-height);
                     border-radius: 25rem;
@@ -367,18 +404,9 @@ body > div > div:nth-child(1) > div:nth-of-type(2) {
     }
 }
 
-/* Containers van alles behalve romp/borst/buik  */
-body > div > div > div:nth-child(1) {
-    
-    > div:nth-child(1) > :not(:first-child),
-    > div:nth-child(2) > * {
-        transition: var(--duration) linear;
-    }
-}
-
 @container style(--theme:party) {
     /*De borst*/
-    body > div > div:nth-child(1) > div:nth-child(1) {
+    body > div > div:nth-child(2) > div:nth-child(1) {
         /* Nek */
         > div:nth-child(1) {
             animation-play-state: running;
@@ -392,7 +420,7 @@ body > div > div > div:nth-child(1) {
                     animation: .5s --wink alternate infinite;
 
                     > div {
-                        animation: .5s --frown-left alternate infinite;
+                        animation-play-state: running;
                     }
                 }
 
@@ -400,32 +428,23 @@ body > div > div > div:nth-child(1) {
                     animation-delay: -.5s;
 
                     > div {
-                        animation: .5s --frown-right alternate infinite;
-                        animation-delay: -.5s;
+                        animation-play-state: running;
                     }
                 }
+                
             }
         }
     }
 }
 
-/* @keyframes --frown-right {
-     0% {
-        transform: rotateZ(0deg);
+@keyframes --frown {
+    0% {
+        transform: translateY(0);
     }
     100% {
-        transform: rotateZ(45deg);
+        transform: translateY(-.5rem);
     }
 }
-
-@keyframes --frown-left {
-     0% {
-        transform: rotateZ(0deg);
-    }
-    100% {
-        transform: rotateZ(-45deg);
-    }
-} */
 
 @keyframes --wink {
     0% {
@@ -440,7 +459,7 @@ body > div > div > div:nth-child(1) {
         background-size: 100%;
         background-image: radial-gradient(
             black 20%,
-            cyan 0 60%,
+            var(--eye-color) 0 60%,
             transparent 0
         );
         background-position: center;
