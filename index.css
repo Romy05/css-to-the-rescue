@@ -3,13 +3,13 @@ html {
     --doll-base-height: calc(var(--doll-base-width) * 2);
 
 
-    --duration: calc(3s / var(--animation-speed));
+    --duration: calc(2s / var(--animation-speed));
     --theme: normal;
 
      
     --spring-animation: linear;
 
-    --body-rotation: calc(var(--rotation) * 1deg);
+    --body-rotation: calc(var(--rotation) * -1deg);
 
     &:has(body > div > div:nth-child(7) > div > div:nth-child(1) > div:nth-child(1) > label > input:checked) {
         --theme: party;
@@ -232,7 +232,7 @@ body > div > div:nth-child(7) > div > div:nth-child(1) {
         top: calc(-1 * (var(--torso-height) + var(--neck-height)));
         left: calc((var(--torso-width) / 2) - (var(--neck-width) / 2));
 
-        background-color: black;
+        background-color: darkslategray;
         animation: --slide calc(var(--duration) / 2) linear infinite;
         animation-play-state: paused;
 
@@ -496,6 +496,55 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
 }
 
 @container style(--theme:party) {
+    /*Kubus*/
+    body > div:nth-child(1) {
+        
+        > div:not(:last-child)  {
+            background-image: linear-gradient(90deg in hsl longer hue, 
+            hsl(0 100% 50%),
+            hsl(0 100% 50%));
+            background-size: 200% 200%;
+            mask-image: unset;
+            animation: unset;
+            animation: --dance-cube-linear var(--duration) linear infinite alternate;
+        }
+
+        > div:nth-child(1) {
+            background-image: linear-gradient(270deg in hsl longer hue, 
+            hsl(0 100% 50%),
+            hsl(0 100% 50%));
+            animation-direction: alternate-reverse;
+        }
+
+        > div:nth-child(3)  {
+            background-image: conic-gradient(from 90deg in hsl longer hue, 
+            hsl(0 100% 50%),
+            hsl(0 100% 50%));
+            background-size: 200% 200%;
+            mask-image: unset;
+            animation: unset;
+            animation: --dance-cube var(--duration) linear infinite;
+        }
+
+        > div:nth-child(4) {
+            background-image: linear-gradient(0deg in hsl longer hue, 
+            hsl(0 100% 50%),
+            hsl(0 100% 50%));
+            animation-direction: alternate-reverse;
+        }
+
+        > div:nth-child(5) {
+            background-image: linear-gradient(180deg in hsl longer hue, 
+            hsl(0 100% 50%),
+            hsl(0 100% 50%));
+        }
+    }
+
+    /* Base / Romp */
+    body > div > div:nth-child(7) > div {
+        animation: --dance-body var(--duration) linear infinite;
+    }
+
     /*De borst*/
     body > div > div:nth-child(7) > div > div:nth-child(1) {
         /* Nek */
@@ -526,6 +575,55 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
             }
         }
     }
+}
+
+@keyframes --dance-cube-linear {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+@keyframes --dance-cube {
+    0% {
+        background-position: 75% 75%;
+    }
+    25% {
+        background-position: 25% 75%;
+    }
+    50% {
+        background-position: 25% 25%;
+    }
+    75% {
+        background-position: 75% 25%;
+    }
+    100% {
+        background-position: 75% 75%;
+    }
+}
+
+@keyframes --dance-body {
+    0% {
+        transform: rotateZ(-5deg);
+    }
+    25% {
+        transform: rotateZ(5deg);
+    }
+    50% {
+        transform: rotateZ(-5deg);
+    }
+    75% {
+        transform: rotateZ(5deg);
+    }
+    100% {
+        transform: rotateZ(-5deg);
+    }
+}
+
+@keyframes --dance-arm-right {
+
 }
 
 @keyframes --frown {
