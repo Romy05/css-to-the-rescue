@@ -19,9 +19,15 @@ html {
 body {
     margin: 0;
     height: 100dvh;
-    background-color: red;
+    background-image: radial-gradient(
+    green 0 25%,
+    transparent 0 100%), repeating-linear-gradient(to bottom, 
+    rgb(47, 183, 228) 0 1%, rgb(4, 153, 203) 0 2%);
+    background-size: 400% 200%;
+    background-position: 50% 0%;
+    overflow: hidden;
     perspective-origin: 50% 50%;
-    perspective: 40em;
+    perspective: 30em;
 
     /*pointer events met behulp van Cyd!*/
     pointer-events: none;
@@ -39,14 +45,14 @@ body * {
 }
 
 body > div:nth-child(1) {
-    --cube-size: calc( 1.25 * var(--doll-base-height));
+    --cube-size: calc( 1.75 * var(--doll-base-height));
     position: absolute;
-    width: calc( 1.25 * var(--doll-base-height));
-    height: calc( 1.25 * var(--doll-base-height));
+    width: var(--cube-size);
+    height: var(--cube-size);
     top: calc(50% - (var(--cube-size) / 2));
     left: calc(50% - (var(--cube-size) / 2));
     transition: .1s linear;
-    transform-origin: 50% 50%;
+    transform-origin: 50% 50%  calc(-1 * (var(--cube-size) / 2));
     transform: rotateY(var(--body-rotation));
 }
 
@@ -67,7 +73,6 @@ body > div:nth-child(2) {
 
 body > div > div:not(:last-child) {
     position: absolute;
-    background: pink;
     backface-visibility: hidden;
     width: var(--cube-size);
     height: var(--cube-size);
@@ -76,6 +81,7 @@ body > div > div:not(:last-child) {
 body > div > div:nth-child(1) {
     transform-origin: 0 50%;
     transform: rotateY(90deg);
+    animation-direction: reverse;
 }
 
 body > div > div:nth-child(2) {
@@ -83,18 +89,75 @@ body > div > div:nth-child(2) {
     transform: rotateY(-90deg);
 }
 
+body > div > div:nth-child(2),
+body > div > div:nth-child(1) {
+    background: transparent;
+
+    /*background image en mask image met behulp van chatGPT*/
+    background-image: radial-gradient(circle at center,
+        transparent 0 2.5%,
+        grey 0 5%, 
+        transparent 0 100%),
+    repeating-conic-gradient(
+        transparent 0deg 30deg,
+        grey 30deg 60deg
+    );
+    mask-image: radial-gradient(circle at center,
+        transparent 0 2.5%,
+        blue 0 7.5%,
+        transparent 0 100%
+    );
+
+    mask-size: 200% 50%;
+    mask-repeat: repeat-x;
+    background-size: 200% 50%;
+    background-repeat: repeat-x;
+    animation-name: --gear-animation;
+    animation-duration: var(--duration);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+ }
+
 body > div > div:nth-child(3) {
-    transform: translateZ(calc(-1.25 * var(--doll-base-height)));
+    background-image: 
+        linear-gradient(to right,
+        grey 20%,
+        transparent 0 80%,
+        grey 0 100%
+    ), linear-gradient(transparent 50%, black 0 100%),
+    radial-gradient(transparent 50%, grey 0 100%),
+    linear-gradient(
+        brown,
+        black 40% 100%
+    );
+    transform: translateZ(calc(-1 * var(--cube-size)));
 }
 
 body > div > div:nth-child(4) {
     transform-origin: 50% 0%;
-    transform: rotateX(-90deg);
+    transform: rotateX(-90deg); 
 }
 
 body > div > div:nth-child(5) {
     transform-origin: 50% 100%;
     transform: rotateX(90deg);
+    background-image: linear-gradient( to right,
+        darkslategray 0 2.5%,
+        white 0 5%,
+        transparent 0 95%,
+        white 0 97.5%,
+        darkslategray 0 100%
+    ), repeating-linear-gradient( to bottom,
+        transparent 0 15%, 
+        darkslategray 0 25%
+    ), linear-gradient( to right,
+        darkslategray 0 47.5%, 
+        white 0 52.5%, 
+        darkslategray 0 100%
+    );
+    background-size: 100% 200%;
+    background-repeat: repeat-y;
+    animation: --road-animation var(--duration) linear infinite;
 }
 
 body > div > div:nth-child(6) {
@@ -117,7 +180,7 @@ body > div > div:nth-child(7) > div {
     --torso-height: calc(.25 * var(--doll-base-height));
     
     position: absolute;
-    top: calc(50% - (var(--torso-height) + (var(--torso-height) * .3)));
+    bottom: -1rem;
     left: calc(50% - calc(var(--doll-base-width)/2));
     width: var(--doll-base-width);
     height: var(--doll-base-height);
@@ -676,5 +739,56 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
     90%,
     100% {
         transform: rotateX(90deg);
+    }
+}
+
+@keyframes --road-animation {
+    0%,
+    12.5% {
+        background-position: 50% 0%;
+    }
+    22.5%,
+    35% {
+        background-position: 50% 25%;
+    }
+    45%,
+    57.5% {
+        background-position: 50% 50%;
+    }
+    67.5%,
+    80% {
+        background-position: 50% 75%;
+    }
+    90%,
+    100% {
+        background-position: 50% 100%;
+    }
+}
+
+@keyframes --gear-animation {
+    0%,
+    12.5% {
+        mask-position: -10% 50%;
+        background-position: -10% 50%;
+    }
+    22.5%,
+    35% {
+        mask-position: 20% 50%;
+        background-position: 20% 50%;
+    }
+    45%,
+    57.5% {
+        mask-position: 50% 50%;
+        background-position: 50% 50%;
+    }
+    67.5%,
+    80% {
+        mask-position: 80% 50%;
+        background-position: 80% 50%;
+    }
+    90%,
+    100% {
+        mask-position: 110% 50%;
+        background-position: 110% 50%;
     }
 }
