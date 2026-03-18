@@ -107,6 +107,7 @@ body > div:nth-child(2) {
     transition: .1s linear;
     transform-origin: 50% 50%  calc(-1 * (var(--cube-size) / 2));
     transform: rotateY(var(--body-rotation)) translateZ(-15rem);
+    transition-delay: .5s;
 }
 
 body > div:nth-child(3) {
@@ -266,8 +267,8 @@ body > div > div:nth-child(7) {
         display: flex;
 
         span {
-            animation: --appear-letter .25s forwards;
-            animation-delay: calc(sibling-index() * .1s);
+            animation: --appear-letter .1s forwards;
+            animation-delay: calc(sibling-index() * .05s);
         }
 
     }
@@ -655,8 +656,8 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
             display: flex;
 
             span {
-                animation: --appear-letter .25s forwards;
-                animation-delay: calc(sibling-index() * .1s);
+                animation: --appear-letter .1s forwards;
+                animation-delay: calc(sibling-index() * .05s);
             }
         }
     }
@@ -845,14 +846,13 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
         transform: rotateZ(-50deg);
     }
     65%,
-    75% {
-        transform: rotateZ(-50deg) translateX(400%) translateY(400%);
-    }
     99% {
         transform: rotateZ(-50deg) translateX(400%) translateY(400%);
+        opacity: 1;
     }
     100% {
         transform: rotateZ(-50deg) translateX(400%) translateY(400%) scale(0.1);
+        opacity: 0;
     }
 }
 
@@ -870,14 +870,13 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
         transform: rotateZ(50deg);
     }
     65%,
-    75% {
-        transform: rotateZ(50deg) translateX(500%) translateY(500%);
-    }
     99% {
         transform: rotateZ(50deg) translateX(500%) translateY(500%);
+        opacity: 1;
     }
     100% {
         transform: rotateZ(50deg) translateX(500%) translateY(500%) scale(0.1);
+        opacity: 0;
     }
 }
 
