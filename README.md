@@ -107,3 +107,9 @@ Dit heb ik helaas niet kunnen experimenteren vanwege tijdsnood. Dus hier wil ik 
 
 Verder vind ik het maken van 3D elementen ontzettend vet, dus hier wil ik ook meer van maken.
 
+## Bronnen
+Cyd Stumpel -> Heeft mij geholpen met het toevoegen van pointer events op het lichaam van het poppetje
+
+ChatGPT ->  
+    -https://chatgpt.com/s/t_69baa5496e1c81918408f34d7ab688e5 
+    - Ook bij het maken van een tandwieltje in een gradient.
