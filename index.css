@@ -645,7 +645,6 @@ body > div > div:nth-child(7) > div > div:nth-of-type(2) {
             animation: unset;
             animation: --panic-cube calc(.2 * var(--duration)) linear infinite;
         }
-
     }
 
     /* Text bubble */
